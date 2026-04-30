@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Planilla</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar__content">
+        <div class="brand">
+          <div class="brand__logo">LOGO</div>
+          <div class="brand__text">
+            <h1>Nombre de la empresa</h1>
+            <p>Consulta y descarga de planillas</p>
+          </div>
+        </div>
+
+        <div class="topbar__action">
+          <span class="pill pill--active">Mi planilla</span>
+        </div>
+      </div>
+      <div class="topbar__line"></div>
+    </header>
+
+    <main class="main">
+      <section class="container">
+        <div class="page-header">
+          <h2>Consulta tu planilla</h2>
+          <p>
+            Ingresa tu tipo y número de documento para consultar y descargar tu
+            planilla en formato PDF.
+          </p>
+        </div>
+
+        <section class="card">
+          <div class="card__info">
+            <h3>Importante</h3>
+            <p>
+              El <strong>período de cotización</strong> es opcional. Si no lo
+              diligencias, el sistema consultará la información asociada al
+              número de identificación.
+            </p>
+            <p>
+              Los campos marcados con <strong>(*)</strong> son obligatorios.
+            </p>
+          </div>
+
+          <form id="planillaForm" class="form" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="tipoDocumento">Tipo de documento *</label>
+                <select id="tipoDocumento" name="tipoDocumento" required>
+                  <option value="">Selecciona una opción</option>
+                  <option value="CC">Cédula de ciudadanía</option>
+                  <option value="CE">Cédula de extranjería</option>
+                  <option value="PA">Pasaporte</option>
+                  <option value="RC">Registro civil</option>
+                  <option value="CD">Carné diplomático</option>
+                  <option value="SC">Salvo conducto de permanencia</option>
+                  <option value="PEP">Permiso especial de permanencia</option>
+                  <option value="PPT">Permiso por protección temporal</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="numeroDocumento">Número de identificación *</label>
+                <input
+                  type="text"
+                  id="numeroDocumento"
+                  name="numeroDocumento"
+                  placeholder="Ingresa tu número de identificación"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="periodo">Período de cotización</label>
+                <input
+                  type="text"
+                  id="periodo"
+                  name="periodo"
+                  placeholder="AAAAMM"
+                  maxlength="6"
+                />
+              </div>
+            </div>
+
+            <div
+              id="messageBox"
+              class="message hidden"
+              aria-live="polite"
+            ></div>
+
+            <div class="form-actions">
+              <button type="submit" id="submitButton" class="btn-primary">
+                Consultar planilla
+              </button>
+            </div>
+          </form>
+
+          <section id="resultBox" class="result hidden">
+            <div class="result__header">
+              <h4>Planilla encontrada</h4>
+              <p>
+                La planilla fue generada correctamente. Si la descarga no inicia
+                automáticamente, puedes usar el siguiente enlace.
+              </p>
+            </div>
+
+            <div class="result__body">
+              <a id="downloadLink" class="download-link" href="#" download>
+                Descargar PDF
+              </a>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer-min">
+      <div class="container">
+        <p>© 2026 Nombre de la empresa</p>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

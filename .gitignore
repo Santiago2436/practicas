@@ -1,0 +1,32 @@
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+!backend/.env.example
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# PDFs generados o descargados manualmente
+*.pdf
+
+# Archivos comprimidos
+*.zip
+*.rar
