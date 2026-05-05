@@ -11,6 +11,97 @@ const downloadLink = document.getElementById('downloadLink');
 
 let currentFileUrl = null;
 
+function setInputError(input, hasError) {
+  if (hasError) {
+    input.classList.add('error');
+  } else {
+    input.classList.remove('error');
+  }
+}
+
+function validateNumeroDocumento(showErrors = false) {
+  const numeroDocumento = numeroDocumentoInput.value.trim();
+  
+  if (numeroDocumento === '') {
+    if (showErrors) {
+      showMessage('Debes ingresar el número de identificación.', 'error');
+      setInputError(numeroDocumentoInput, true);
+    }
+    return false;
+  }
+
+  if (!/^\d+$/.test(numeroDocumento)) {
+    if (showErrors) {
+      showMessage('El número de documento debe contener solo números, sin letras ni símbolos.', 'error');
+      setInputError(numeroDocumentoInput, true);
+    }
+    return false;
+  }
+
+  if (numeroDocumento.length > 15) {
+    if (showErrors) {
+      showMessage('El número de documento no puede exceder 15 dígitos.', 'error');
+      setInputError(numeroDocumentoInput, true);
+    }
+    return false;
+  }
+
+  setInputError(numeroDocumentoInput, false);
+  return true;
+}
+
+function validatePeriodo(showErrors = false) {
+  const periodo = periodoInput.value.trim();
+  
+  if (periodo === '') {
+    setInputError(periodoInput, false);
+    return true;
+  }
+
+  if (!/^\d{6}$/.test(periodo)) {
+    if (showErrors) {
+      showMessage('El período debe tener formato AAAAMM (ej: 202501).', 'error');
+      setInputError(periodoInput, true);
+    }
+    return false;
+  }
+
+  const year = parseInt(periodo.substring(0, 4));
+  const month = parseInt(periodo.substring(4, 6));
+  
+  if (year < 1900 || year > 2100) {
+    if (showErrors) {
+      showMessage('El año del período debe estar entre 1900 y 2100.', 'error');
+      setInputError(periodoInput, true);
+    }
+    return false;
+  }
+
+  if (month < 1 || month > 12) {
+    if (showErrors) {
+      showMessage('El mes del período debe estar entre 01 y 12.', 'error');
+      setInputError(periodoInput, true);
+    }
+    return false;
+  }
+
+  setInputError(periodoInput, false);
+  return true;
+}
+
+numeroDocumentoInput.addEventListener('input', () => {
+  numeroDocumentoInput.value = numeroDocumentoInput.value.replace(/[^\d]/g, '');
+  if (numeroDocumentoInput.value.length > 15) {
+    numeroDocumentoInput.value = numeroDocumentoInput.value.slice(0, 15);
+  }
+  validateNumeroDocumento(false);
+});
+
+periodoInput.addEventListener('input', () => {
+  periodoInput.value = periodoInput.value.replace(/[^\d]/g, '').slice(0, 6);
+  validatePeriodo(false);
+});
+
 function showMessage(text, type = 'info', withSpinner = false) {
   if (withSpinner) {
     messageBox.innerHTML = `
@@ -60,21 +151,17 @@ function setLoadingState(isLoading) {
 
 function validateForm() {
   const tipoDocumento = tipoDocumentoInput.value.trim();
-  const numeroDocumento = numeroDocumentoInput.value.trim();
-  const periodo = periodoInput.value.trim();
 
   if (!tipoDocumento) {
     showMessage('Debes seleccionar un tipo de documento.', 'error');
     return false;
   }
 
-  if (!numeroDocumento) {
-    showMessage('Debes ingresar el número de identificación.', 'error');
+  if (!validateNumeroDocumento(true)) {
     return false;
   }
 
-  if (periodo && !/^\d{6}$/.test(periodo)) {
-    showMessage('El período debe tener formato AAAAMM, por ejemplo 202501.', 'error');
+  if (!validatePeriodo(true)) {
     return false;
   }
 
