@@ -16,16 +16,16 @@ class VoucherService extends SimpleClient
         return $this;
     }
 
-    public function individualReport(string $documentType, string $document, ?string $period = null): array
+    public function individualReport(string $documentType, string $document, ?string $quotePeriod = null): array
     {
         $session = $this->sessionService->login();
 
         $payload = [
-            'payroll_number' => $period ?? '',
+            'payroll_number' => '',
             'init_payment_date' => '',
             'end_payment_date' => '',
             'branch_code' => '',
-            'quote_period' => '',
+            'quote_period' => $quotePeriod ?? '',
             'identification' => [
                 'document_type' => $documentType,
                 'document' => $document,
